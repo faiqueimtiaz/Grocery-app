@@ -432,6 +432,9 @@
                     var itemToDeleteName = groceryData[index].groceryItemName;
                     if (confirm(`Are you sure to delete the item : ${itemToDeleteName}?`)) {
                         groceryData.splice(index, 1);
+                        InfoAlertType = 'info';
+                        InfoAlertMsg = `The item : ${itemToDeleteName} has been removed from the list.`;
+                        InfoAlert(InfoAlertType, InfoAlertMsg)
                         renderData();
                     }
 
