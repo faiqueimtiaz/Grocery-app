@@ -180,6 +180,7 @@
     .alert {
         padding: 5px 10px;
         border: 0;
+        text-align: left;
     }
 
     div#grocery-list-items {
@@ -306,7 +307,7 @@
                     groceryData.push(groceryDataObject);
                     // console.log(groceryData);
                     InfoAlertMsg = 'The item has been added to the list.';
-                    InfoAlertType = 'success';
+                    InfoAlertType = 'info';
                     InfoAlertDiv.classList.remove('d-none');
                     InfoAlert(InfoAlertType, InfoAlertMsg);
 
