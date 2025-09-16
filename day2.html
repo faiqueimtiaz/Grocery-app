@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic tac toe</title>
+    <style>
+        button.reset-game {
+            text-align: center;
+            margin: auto;
+            width: auto;
+            padding: 0;
+            height: auto;
+            margin-top: 20px;
+            font-size: 25px;
+            background: darkred;
+            color: #fff;
+            padding: 9px 20px;
+        }
+
+        .game {
+            text-align: center;
+            font-family: sans-serif;
+        }
+
+        .body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-wrap: wrap;
+        }
+
+        table {
+            /* border: 1px solid #000; */
+            margin: auto;
+        }
+
+        button {
+            border: 0;
+            background-color: #bbb;
+            height: 100px;
+            width: 100px;
+            cursor: pointer;
+            font-size: 35px;
+            font-family: sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1 {
+            text-align: center;
+            display: block;
+            width: 100%;
+        }
+
+        .winner-box {
+            background: #fff;
+            max-width: 500px;
+            position: relative;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 30px;
+            flex-direction: column;
+        }
+
+        .winner-box h2 {
+            font-size: 31px;
+        }
+
+
+        .winner-box-overlay {
+            display: none;
+
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgb(0 0 0 / 50%);
+        }
+
+        a.close-winner-box {
+            text-decoration: none;
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #000;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #fff;
+            font-family: monospace;
+            font-size: 20px;
+        }
+
+        .game-container {
+            height: 97vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="game-container">
+        <div class="game">
+            <h1>Tic Tac Toe</h1>
+            <table>
+                <tr>
+                    <td><button class="turn-btn" id="btn-0" onclick="onTurn(0)" type="button" value="0"></button></td>
+                    <td><button class="turn-btn" id="btn-1" onclick="onTurn(1)" type="button" value="1"></button></td>
+                    <td><button class="turn-btn" id="btn-2" onclick="onTurn(2)" type="button" value="2"></button></td>
+                </tr>
+                <tr>
+                    <td><button class="turn-btn" id="btn-3" onclick="onTurn(3)" type="button" value="3"></button></td>
+                    <td><button class="turn-btn" id="btn-4" onclick="onTurn(4)" type="button" value="4"></button></td>
+                    <td><button class="turn-btn" id="btn-5" onclick="onTurn(5)" type="button" value="5"></button></td>
+                </tr>
+                <tr>
+                    <td><button class="turn-btn" id="btn-6" onclick="onTurn(6)" type="button" value="6"></button></td>
+                    <td><button class="turn-btn" id="btn-7" onclick="onTurn(7)" type="button" value="7"></button></td>
+                    <td><button class="turn-btn" id="btn-8" onclick="onTurn(8)" type="button" value="8"></button></td>
+
+                </tr>
+            </table>
+            <h3 class="current-turn">Current Turn: Player <span id="current-player">X</span></h3>
+            <button class="reset-game" onclick="resetGame()">Reset Game</button>
+
+
+            <div class="winner-box-overlay">
+                <div class="winner-box">
+                    <a href="#" class="close-winner-box" onclick="closeWinnerBox()">X</a>
+                    <h2 id="declare-winner">Winner is player: <span id="winner"></span></h2>
+                    <button class="close-winner-box reset-game" onclick="closeWinnerBox()">Start Over</button>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        var playerTurn = 1;
+        var playerMark = '';
+        function onTurn(index) {
+
+            if (playerTurn === 1) {
+                // Player 1's turn
+                playerMark = 'X';
+                playerTurn = 2;
+                document.getElementById('btn-' + index).style.color = 'red';
+            } else {
+                // Player 2's turn
+                playerMark = 'O';
+                playerTurn = 1;
+                document.getElementById('btn-' + index).style.color = '#000';
+            }
+            document.getElementById('btn-' + index).innerText = playerMark;
+            document.getElementById('btn-' + index).disabled = true;
+
+            document.getElementById('current-player').innerText = playerTurn === 1 ? 'X' : 'O';
+            selectWinner();
+
+
+        }
+
+
+
+        function resetGame() {
+            playerTurn = 1;
+            playerMark = '';
+            for (var i = 0; i < 9; i++) {
+                document.getElementById('btn-' + i).innerText = '';
+                document.getElementById('btn-' + i).disabled = false;
+                document.getElementById('btn-' + i).style.color = '#000';
+            }
+        }
+
+        // function gameDraw() {
+        //     var turnButtons = document.querySelectorAll('.turn-btn');
+        //     var isDraw = false;
+        //     turnButtons.forEach(turnbtn => {
+        //         if (turnbtn.innerText !== '') {
+
+        //         }
+        //     });
+
+
+        //     if (isDraw) {
+        //         document.getElementById('winner').innerText = 'No One';
+        //         document.querySelector('.winner-box-overlay').style.display = 'flex';
+        //     }
+        // }
+
+        function selectWinner() {
+
+            var turnButtons = document.querySelectorAll('.turn-btn');
+            var winner = '';
+
+            var winningCombinations = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
+
+
+
+            for (var i = 0; i < winningCombinations.length; i++) {
+                var [a, b, c] = winningCombinations[i];
+
+
+                if (turnButtons[a].innerText !== '' && turnButtons[b].innerText !== '' || turnButtons[c].innerText !== '') {
+                    if (turnButtons[a].innerText === turnButtons[b].innerText && turnButtons[a].innerText === turnButtons[c].innerText) {
+                        winner = turnButtons[a].innerText;
+                        document.getElementById('declare-winner').innerHTML = `Winner is player: <span id="winner">${winner}</span>`;
+                        document.querySelector('.winner-box-overlay').style.display = 'flex';
+                        
+                    }
+
+                }
+
+
+
+
+
+
+            }
+            if (document.querySelectorAll('.turn-btn:disabled').length === document.querySelectorAll('.turn-btn').length) {
+                winner = 'Draw';
+                document.getElementById('declare-winner').innerHTML = `Its a Draw!`;
+                document.querySelector('.winner-box-overlay').style.display = 'flex';
+
+            }
+        }
+
+
+        function closeWinnerBox() {
+            document.querySelector('.winner-box-overlay').style.display = 'none';
+            playerTurn = 1;
+            playerMark = '';
+            for (var i = 0; i < 9; i++) {
+                document.getElementById('btn-' + i).innerText = '';
+                document.getElementById('btn-' + i).disabled = false;
+                document.getElementById('btn-' + i).style.color = '#000';
+            }
+        }
+
+
+    </script>
+</body>
+
+</html>
